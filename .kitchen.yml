@@ -24,3 +24,6 @@ suites:
       inspec_tests:
         - test/smoke/default
     attributes:
+      kubernetes:
+        kubectl:
+          enabled: true

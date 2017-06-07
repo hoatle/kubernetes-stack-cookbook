@@ -1,7 +1,3 @@
-#
-# Cookbook:: kubernetes
-# Spec:: default
-#
 # The MIT License (MIT)
 #
 # Copyright:: 2017, Teracy Corporation
@@ -24,22 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require 'spec_helper'
+default['kubernetes']['kubectl']['enabled'] = false
+default['kubernetes']['kubectl']['version'] = ''
 
-describe 'kubernetes::default' do
-  context 'When all attributes are default, on ubuntu 16.04' do
-    let(:chef_run) do
-      runner = ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '16.04')
-      runner.converge(described_recipe)
-    end
-
-    it 'converges successfully' do
-      expect { chef_run }.to_not raise_error
-    end
-
-    it 'includes recipes' do
-      expect(chef_run).to include_recipe('kubernetes::kubectl')
-      expect(chef_run).to include_recipe('kubernetes::gcloud')
-    end
-  end
-end
+default['kubernetes']['gcloud']['enabled'] = false
+default['kubernetes']['gcloud']['version'] = ''

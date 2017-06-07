@@ -23,3 +23,42 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+
+k8s_conf = node['kubernetes']
+kubectl_conf = k8s_conf['kubectl']
+
+if kubectl_conf['enabled'] == true && platform?('linux')
+
+  if !kubectl_conf['version'].empty?
+    version = kubectl_conf['version']
+    # kubectl version --short --client | cut -d ':' -f2
+    # TODO(hoatle): if existing version does not match the specified version, re-install
+  else
+    latest_version_url = 'curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt'
+    version_cmd = Mixlib::ShellOut.new(latest_version_url)
+    version_cmd.run_command
+    version_cmd.error!
+    version = version_cmd.stdout.strip
+  end
+
+  bash 'clean up the mismatched kubectl version' do
+    code <<-EOF
+      kubectl_binary=$(which kubectl);
+      existing_version=$(kubectl version --short --client | cut -d ':' -f2');
+      if [ "$existing_version" != "#{version}" ]; then
+        rm -rf $kubectl_binary || true;
+      fi
+    EOF
+    only_if 'which kubectl'
+    user 'root'
+  end
+
+  download_url = "https://storage.googleapis.com/kubernetes-release/release/#{version}/bin/linux/amd64/kubectl"
+  kubectl_binary = '/usr/local/bin/kubectl'
+
+  remote_file kubectl_binary.to_s do
+    source download_url
+    mode '0755'
+    not_if { File.exist?(kubectl_binary) }
+  end
+end
