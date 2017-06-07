@@ -31,8 +31,6 @@ if kubectl_conf['enabled'] == true
 
   if !kubectl_conf['version'].empty?
     version = kubectl_conf['version']
-    # kubectl version --short --client | cut -d ':' -f2
-    # TODO(hoatle): if existing version does not match the specified version, re-install
   else
     latest_version_url = 'curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt'
     version_cmd = Mixlib::ShellOut.new(latest_version_url)
