@@ -40,7 +40,7 @@ if gcloud_conf['enabled']
   if platform?('ubuntu')
 
     execute 'import google-cloud-sdk public key' do
-      command 'curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -'
+      command 'curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -'
     end
 
     apt_repository 'google-cloud-sdk' do

@@ -10,8 +10,3 @@ unless os.windows?
     it { should exist }
   end
 end
-
-# describe command('which kubectl') do
-#   its(:exit_status) { should eq 0 }
-#   its(:stdout) { should match('/usr/local/bin/kubernetes') }
-# end

@@ -14,16 +14,34 @@ verifier:
 
 platforms:
   - name: ubuntu-16.04
-  - name: centos-7
+  #- name: centos-7
 
 suites:
-  - name: smoke
+  - name: smoke-default
     run_list:
       - recipe[kubernetes::default]
     verifier:
       inspec_tests:
         - test/smoke/default
+
+  - name: smoke-kubectl
+    run_list:
+      - recipe[kubernetes::kubectl]
+    verifier:
+      inspec_tests:
+        - test/smoke/kubectl
     attributes:
       kubernetes:
         kubectl:
+          enabled: true
+
+  - name: smoke-gcloud
+    run_list:
+      - recipe[kubernetes::gcloud]
+    verifier:
+      inspec_tests:
+        - test/smoke/gcloud
+    attributes:
+      kubernetes:
+        gcloud:
           enabled: true

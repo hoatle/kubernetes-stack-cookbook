@@ -27,7 +27,7 @@
 k8s_conf = node['kubernetes']
 kubectl_conf = k8s_conf['kubectl']
 
-if kubectl_conf['enabled'] == true && platform?('linux')
+if kubectl_conf['enabled'] == true
 
   if !kubectl_conf['version'].empty?
     version = kubectl_conf['version']
@@ -44,7 +44,7 @@ if kubectl_conf['enabled'] == true && platform?('linux')
   bash 'clean up the mismatched kubectl version' do
     code <<-EOF
       kubectl_binary=$(which kubectl);
-      existing_version=$(kubectl version --short --client | cut -d ':' -f2');
+      existing_version=$(kubectl version --short --client | cut -d ':' -f2);
       if [ "$existing_version" != "#{version}" ]; then
         rm -rf $kubectl_binary || true;
       fi
