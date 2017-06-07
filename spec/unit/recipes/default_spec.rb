@@ -26,7 +26,6 @@
 
 require 'spec_helper'
 
-
 describe 'kubernetes::default' do
   context 'When all attributes are default, on an unspecified platform' do
     let(:chef_run) do
