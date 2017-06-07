@@ -1,6 +1,6 @@
 #
 # Cookbook:: kubernetes
-# Recipe:: default
+# Recipe:: kubectl
 #
 # The MIT License (MIT)
 #
