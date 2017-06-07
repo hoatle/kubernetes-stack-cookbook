@@ -1,4 +1,4 @@
-# kubernetes [![Build Status](https://travis-ci.org/teracyhq/kubernetes-cookbook.svg?branch=develop)](https://travis-ci.org/teracyhq/kubernetes-cookbook)
+# kubernetes [![Build Status](https://travis-ci.org/teracyhq-incubator/kubernetes-cookbook.svg?branch=develop)](https://travis-ci.org/teracyhq-incubator/kubernetes-cookbook)
 
 Kubernetes stack cookbook to work with Kubernetes
 
