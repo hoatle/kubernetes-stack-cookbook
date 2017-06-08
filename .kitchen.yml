@@ -19,29 +19,29 @@ platforms:
 suites:
   - name: smoke-default
     run_list:
-      - recipe[kubernetes::default]
+      - recipe[kubernetes-stack::default]
     verifier:
       inspec_tests:
         - test/smoke/default
 
   - name: smoke-kubectl
     run_list:
-      - recipe[kubernetes::kubectl]
+      - recipe[kubernetes-stack::kubectl]
     verifier:
       inspec_tests:
         - test/smoke/kubectl
     attributes:
-      kubernetes:
+      kubernetes-stack:
         kubectl:
           enabled: true
 
   - name: smoke-gcloud
     run_list:
-      - recipe[kubernetes::gcloud]
+      - recipe[kubernetes-stack::gcloud]
     verifier:
       inspec_tests:
         - test/smoke/gcloud
     attributes:
-      kubernetes:
+      kubernetes-stack:
         gcloud:
           enabled: true

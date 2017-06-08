@@ -1,5 +1,5 @@
 #
-# Cookbook:: kubernetes
+# Cookbook:: kubernetes-stack
 # Spec:: kubectl
 #
 # The MIT License (MIT)
@@ -26,7 +26,7 @@
 
 require 'spec_helper'
 
-describe 'kubernetes::kubectl' do
+describe 'kubernetes-stack::kubectl' do
   context 'When all attributes are default, on ubuntu 16.04' do
     let(:chef_run) do
       runner = ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '16.04')
@@ -38,8 +38,8 @@ describe 'kubernetes::kubectl' do
     end
 
     it 'has default attributes' do
-      expect(chef_run.node['kubernetes']['kubectl']['enabled']).to eq(false)
-      expect(chef_run.node['kubernetes']['kubectl']['version']).to eq('')
+      expect(chef_run.node['kubernetes-stack']['kubectl']['enabled']).to eq(false)
+      expect(chef_run.node['kubernetes-stack']['kubectl']['version']).to eq(nil)
     end
   end
 end

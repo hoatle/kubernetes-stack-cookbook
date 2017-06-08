@@ -1,5 +1,5 @@
 #
-# Cookbook:: kubernetes
+# Cookbook:: kubernetes-stack
 # Spec:: gcloud
 #
 # The MIT License (MIT)
@@ -26,7 +26,7 @@
 
 require 'spec_helper'
 
-describe 'kubernetes::gcloud' do
+describe 'kubernetes-stack::gcloud' do
   context 'When all attributes are default, on ubuntu 16.04' do
     let(:chef_run) do
       runner = ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '16.04')
@@ -38,8 +38,8 @@ describe 'kubernetes::gcloud' do
     end
 
     it 'has default attributes' do
-      expect(chef_run.node['kubernetes']['gcloud']['enabled']).to eq(false)
-      expect(chef_run.node['kubernetes']['gcloud']['version']).to eq('')
+      expect(chef_run.node['kubernetes-stack']['gcloud']['enabled']).to eq(false)
+      expect(chef_run.node['kubernetes-stack']['gcloud']['version']).to eq(nil)
     end
   end
 end

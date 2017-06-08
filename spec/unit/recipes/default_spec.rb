@@ -1,5 +1,5 @@
 #
-# Cookbook:: kubernetes
+# Cookbook:: kubernetes-stack
 # Spec:: default
 #
 # The MIT License (MIT)
@@ -26,7 +26,7 @@
 
 require 'spec_helper'
 
-describe 'kubernetes::default' do
+describe 'kubernetes-stack::default' do
   context 'When all attributes are default, on ubuntu 16.04' do
     let(:chef_run) do
       runner = ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '16.04')
@@ -38,8 +38,8 @@ describe 'kubernetes::default' do
     end
 
     it 'includes recipes' do
-      expect(chef_run).to include_recipe('kubernetes::kubectl')
-      expect(chef_run).to include_recipe('kubernetes::gcloud')
+      expect(chef_run).to include_recipe('kubernetes-stack::kubectl')
+      expect(chef_run).to include_recipe('kubernetes-stack::gcloud')
     end
   end
 end

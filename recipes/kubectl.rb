@@ -1,5 +1,5 @@
 #
-# Cookbook:: kubernetes
+# Cookbook:: kubernetes-stack
 # Recipe:: kubectl
 #
 # The MIT License (MIT)
@@ -24,12 +24,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-k8s_conf = node['kubernetes']
+k8s_conf = node['kubernetes-stack']
 kubectl_conf = k8s_conf['kubectl']
 
 if kubectl_conf['enabled'] == true
 
-  if !kubectl_conf['version'].empty?
+  if kubectl_conf['version'] && !kubectl_conf['version'].empty?
     version = kubectl_conf['version']
   else
     latest_version_url = 'curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt'

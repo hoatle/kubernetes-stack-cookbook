@@ -1,5 +1,5 @@
 #
-# Cookbook:: kubernetes
+# Cookbook:: kubernetes-stack
 # Recipe:: gcloud
 #
 # The MIT License (MIT)
@@ -31,7 +31,7 @@
 # TODO(hoatle): not sure why key and keyserver from apt_repository did not work
 # this is the workaround for that
 
-k8s_conf = node['kubernetes']
+k8s_conf = node['kubernetes-stack']
 gcloud_conf = k8s_conf['gcloud']
 
 if gcloud_conf['enabled']

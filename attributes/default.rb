@@ -20,8 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-default['kubernetes']['kubectl']['enabled'] = false
-default['kubernetes']['kubectl']['version'] = ''
+default['kubernetes-stack']['kubectl']['enabled'] = false
+default['kubernetes-stack']['kubectl']['version'] = nil
 
-default['kubernetes']['gcloud']['enabled'] = false
-default['kubernetes']['gcloud']['version'] = ''
+default['kubernetes-stack']['gcloud']['enabled'] = false
+default['kubernetes-stack']['gcloud']['version'] = nil

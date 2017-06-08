@@ -1,7 +1,0 @@
-DEPENDENCIES
-  kubernetes
-    path: .
-    metadata: true
-
-GRAPH
-  kubernetes (0.1.0)
