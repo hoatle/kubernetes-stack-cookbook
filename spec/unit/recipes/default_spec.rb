@@ -36,10 +36,5 @@ describe 'kubernetes-stack::default' do
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
     end
-
-    it 'includes recipes' do
-      expect(chef_run).to include_recipe('kubernetes-stack::kubectl')
-      expect(chef_run).to include_recipe('kubernetes-stack::gcloud')
-    end
   end
 end

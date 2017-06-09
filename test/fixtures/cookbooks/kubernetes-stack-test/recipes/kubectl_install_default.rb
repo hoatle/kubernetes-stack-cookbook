@@ -1,0 +1,1 @@
+kubectl 'install default kubectl'

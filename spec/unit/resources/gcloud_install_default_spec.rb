@@ -1,6 +1,6 @@
 #
 # Cookbook:: kubernetes-stack
-# Spec:: gcloud
+# Spec:: kubectl
 #
 # The MIT License (MIT)
 #
@@ -26,10 +26,14 @@
 
 require 'spec_helper'
 
-describe 'kubernetes-stack::gcloud' do
+describe 'kubernetes-stack-test::gcloud_install_default' do
   context 'When all attributes are default, on ubuntu 16.04' do
     let(:chef_run) do
-      runner = ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '16.04')
+      runner = ChefSpec::SoloRunner.new(
+        step_into: 'gcloud',
+        platform: 'ubuntu',
+        version: '16.04'
+      )
       runner.converge(described_recipe)
     end
 
@@ -37,9 +41,8 @@ describe 'kubernetes-stack::gcloud' do
       expect { chef_run }.to_not raise_error
     end
 
-    it 'has default attributes' do
-      expect(chef_run.node['kubernetes-stack']['gcloud']['enabled']).to eq(false)
-      expect(chef_run.node['kubernetes-stack']['gcloud']['version']).to eq(nil)
+    it 'install gcloud' do
+      expect(chef_run).to install_package('google-cloud-sdk')
     end
   end
 end

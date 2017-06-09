@@ -19,9 +19,3 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
-default['kubernetes-stack']['kubectl']['enabled'] = false
-default['kubernetes-stack']['kubectl']['version'] = nil
-
-default['kubernetes-stack']['gcloud']['enabled'] = false
-default['kubernetes-stack']['gcloud']['version'] = nil
