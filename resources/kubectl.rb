@@ -9,6 +9,33 @@ load_current_value do
 end
 
 action :install do
+  platform_cmd = Mixlib::ShellOut.new('uname')
+  platform_cmd.run_command
+  platform_cmd.error!
+  platform = platform_cmd.stdout.strip.downcase
+
+  version = new_resource.version
+
+  arch_cmd = Mixlib::ShellOut.new('uname -m')
+  arch_cmd.run_command
+  arch_cmd.error!
+  arch = arch_cmd.stdout.strip
+
+  case arch
+  when 'x86', 'i686', 'i386'
+    arch = '386'
+  when 'x86_64', 'aarch64'
+    arch = 'amd64'
+  when 'armv5*'
+    arch = 'armv5'
+  when 'armv6*'
+    arch = 'armv6'
+  when 'armv7*'
+    arch = 'armv7'
+  else
+    arch = 'default'
+  end
+
   if version.empty?
     latest_version_url = 'curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt'
     version_cmd = Mixlib::ShellOut.new(latest_version_url)
@@ -28,7 +55,7 @@ action :install do
     only_if 'which kubectl'
   end
 
-  download_url = "https://storage.googleapis.com/kubernetes-release/release/#{version}/bin/linux/amd64/kubectl"
+  download_url = "https://storage.googleapis.com/kubernetes-release/release/#{version}/bin/#{platform}/#{arch}/kubectl"
 
   remote_file binary_path do
     source download_url
