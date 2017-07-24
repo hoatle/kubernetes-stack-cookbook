@@ -21,6 +21,10 @@ env:
   - INSTANCE=smoke-kubectl-centos-7
   - INSTANCE=smoke-kubectl-specific-version-ubuntu-1604
   - INSTANCE=smoke-kubectl-specific-version-centos-7
+  - INSTANCE=smoke-helm-ubuntu-1604
+  - INSTANCE=smoke-helm-centos-7
+  - INSTANCE=smoke-helm-specific-version-ubuntu-1604
+  - INSTANCE=smoke-helm-specific-version-centos-7
   - INSTANCE=smoke-gcloud-ubuntu-1604
 
 # Ensure we make ChefDK's Ruby the default
