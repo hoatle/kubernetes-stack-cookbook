@@ -31,7 +31,7 @@ describe 'kubernetes-stack-test::kubectl_install_default' do
     let(:chef_run) { ChefSpec::SoloRunner.new(step_into: 'kubectl', platform: 'ubuntu', version: '16.04').converge(described_recipe) }
 
     before do
-      stub_command('which kubectl').and_return(true)
+      stub_command('which kubectl').and_return('/usr/local/bin/kubectl')
     end
 
     it 'converges successfully' do
@@ -47,7 +47,7 @@ describe 'kubernetes-stack-test::kubectl_install_default' do
     let(:chef_run) { ChefSpec::SoloRunner.new(step_into: 'kubectl', platform: 'centos', version: '7.3.1611').converge(described_recipe) }
 
     before do
-      stub_command('which kubectl').and_return(true)
+      stub_command('which kubectl').and_return('/usr/local/bin/kubectl')
     end
 
     it 'converges successfully' do
