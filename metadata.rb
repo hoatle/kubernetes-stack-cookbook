@@ -21,4 +21,4 @@ source_url 'https://github.com/teracyhq-incubator/kubernetes-stack-cookbook' if 
 chef_version '>= 12.5' if respond_to?(:chef_version)
 
 supports 'ubuntu'
-# supports 'centos'
+supports 'centos'
