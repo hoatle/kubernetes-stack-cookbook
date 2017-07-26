@@ -73,10 +73,19 @@ suites:
       - recipe[kubernetes-stack-test::gcloud_install_default]
     verifier:
       inspec_tests:
-        - test/smoke/gcloud
+        - test/smoke/gcloud/gcloud_test.rb
     attributes:
       kubernetes-stack:
         gcloud:
           enabled: true
-    excludes:
-      - centos-7.3
+
+  - name: smoke-gcloud-specific-version
+    run_list:
+      - recipe[kubernetes-stack-test::gcloud_install_specific_version]
+    verifier:
+      inspec_tests:
+        - test/smoke/gcloud/gcloud_specific_version_test.rb
+    attributes:
+      kubernetes-stack:
+        gcloud:
+          enabled: true
