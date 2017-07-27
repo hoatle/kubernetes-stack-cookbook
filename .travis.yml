@@ -26,6 +26,9 @@ env:
   - INSTANCE=smoke-helm-specific-version-ubuntu-1604
   - INSTANCE=smoke-helm-specific-version-centos-7
   - INSTANCE=smoke-gcloud-ubuntu-1604
+  - INSTANCE=smoke-gcloud-centos-7
+  - INSTANCE=smoke-gcloud-specific-version-ubuntu-1604
+  - INSTANCE=smoke-gcloud-specific-version-centos-7
 
 # Ensure we make ChefDK's Ruby the default
 before_script:
