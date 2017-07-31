@@ -24,6 +24,18 @@ suites:
       inspec_tests:
         - test/smoke/default
 
+  - name: smoke-kubectl-default
+    run_list:
+      - recipe[kubernetes-stack-test::kubectl_install_default]
+      - recipe[kubernetes-stack-test::kubectl_install_specific_version]
+    verifier:
+      inspec_tests:
+        - test/smoke/kubectl/kubectl_default_test.rb
+    attributes:
+      kubernetes-stack:
+        kubectl:
+          enabled: true
+
   - name: smoke-kubectl
     run_list:
       - recipe[kubernetes-stack-test::kubectl_install_default]
@@ -44,6 +56,29 @@ suites:
     attributes:
       kubernetes-stack:
         kubectl:
+          enabled: true
+
+  - name: smoke-kubectl-uninstall
+    run_list:
+      - recipe[kubernetes-stack-test::kubectl_uninstall]
+    verifier:
+      inspec_tests:
+        - test/smoke/kubectl/kubectl_uninstall_test.rb
+    attributes:
+      kubernetes-stack:
+        kubectl:
+          enabled: true
+
+  - name: smoke-helm-default
+    run_list:
+      - recipe[kubernetes-stack-test::helm_install_default]
+      - recipe[kubernetes-stack-test::helm_install_specific_version]
+    verifier:
+      inspec_tests:
+        - test/smoke/helm/helm_default_test.rb
+    attributes:
+      kubernetes-stack:
+        helm:
           enabled: true
 
   - name: smoke-helm
@@ -68,6 +103,29 @@ suites:
         helm:
           enabled: true
 
+  - name: smoke-helm-uninstall
+    run_list:
+      - recipe[kubernetes-stack-test::helm_uninstall]
+    verifier:
+      inspec_tests:
+        - test/smoke/helm/helm_uninstall_test.rb
+    attributes:
+      kubernetes-stack:
+        helm:
+          enabled: true
+
+  - name: smoke-gcloud-default
+    run_list:
+      - recipe[kubernetes-stack-test::gcloud_install_default]
+      - recipe[kubernetes-stack-test::gcloud_install_specific_version]
+    verifier:
+      inspec_tests:
+        - test/smoke/gcloud/gcloud_default_test.rb
+    attributes:
+      kubernetes-stack:
+        gcloud:
+          enabled: true
+
   - name: smoke-gcloud
     run_list:
       - recipe[kubernetes-stack-test::gcloud_install_default]
@@ -85,6 +143,17 @@ suites:
     verifier:
       inspec_tests:
         - test/smoke/gcloud/gcloud_specific_version_test.rb
+    attributes:
+      kubernetes-stack:
+        gcloud:
+          enabled: true
+
+  - name: smoke-gcloud-uninstall
+    run_list:
+      - recipe[kubernetes-stack-test::gcloud_uninstall]
+    verifier:
+      inspec_tests:
+        - test/smoke/gcloud/gcloud_uninstall_test.rb
     attributes:
       kubernetes-stack:
         gcloud:

@@ -44,23 +44,30 @@ action :install do
     version = version_cmd.stdout.strip
   end
 
-  bash 'clean up the mismatched kubectl version' do
-    code <<-EOF
-      kubectl_binary=$(which kubectl);
-      existing_version=$(kubectl version --short --client | cut -d ':' -f2);
-      if [ "$existing_version" != "#{version}" ]; then
-        rm -rf $kubectl_binary || true;
-      fi
-    EOF
-    only_if 'which kubectl'
+  # Command to check if we should be installing kubectl or not.
+  existing_version_cmd = Mixlib::ShellOut.new("kubectl version --short --client | cut -d ':' -f2")
+  existing_version_cmd.run_command
+
+  if existing_version_cmd.stderr.empty? && !existing_version_cmd.stdout.empty?
+    existing_version = existing_version_cmd.stdout.strip
   end
 
-  download_url = "https://storage.googleapis.com/kubernetes-release/release/#{version}/bin/#{platform}/#{arch}/kubectl"
+  if existing_version.to_s != version.to_s
+    bash 'clean up the mismatched kubectl version' do
+      code <<-EOF
+        kubectl_binary=$(which kubectl);
+        rm -rf $kubectl_binary
+        EOF
+      only_if 'which kubectl'
+    end
 
-  remote_file binary_path do
-    source download_url
-    mode '0755'
-    not_if { ::File.exist?(binary_path) }
+    download_url = "https://storage.googleapis.com/kubernetes-release/release/#{version}/bin/#{platform}/#{arch}/kubectl"
+
+    remote_file binary_path do
+      source download_url
+      mode '0755'
+      not_if { ::File.exist?(binary_path) }
+    end
   end
 end
 

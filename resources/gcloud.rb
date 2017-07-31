@@ -20,19 +20,6 @@ action :install do
   arch = arch_cmd.stdout.strip
 
   version = new_resource.version
-  bash 'clean up the mismatched gcloud version' do
-    code <<-EOF
-      gcloud_binary=$(which gcloud);
-      existing_version=$(gcloud version | head -1 | grep -o -E '[0-9].*');
-      if [ "$existing_version" != "#{version}" ]; then
-        rm -rf $gcloud_binary || true;
-        rm -rf /$(whoami)/.config/gcloud || true;
-        rm -rf /usr/lib/google-cloud-sdk/ || true;
-      fi
-    EOF
-    only_if 'which gcloud'
-  end
-
   if version.empty?
     latest_version_url = "curl -s https://cloud.google.com/sdk/docs/release-notes | grep 'h2' | head -1 | cut -d '>' -f2 | sed 's/[[:space:]].*//'"
     latest_version_cmd = Mixlib::ShellOut.new(latest_version_url)
@@ -41,41 +28,65 @@ action :install do
     version = latest_version_cmd.stdout.strip
   end
 
-  download_url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-#{version}-#{platform}-#{arch}.tar.gz"
-  if platform?('ubuntu')
-    execute 'check exist and install python' do
-      command 'apt-get install -y python'
-      not_if 'which python'
+  # Command to check if we should be installing gcloud or not.
+  existing_version_cmd = Mixlib::ShellOut.new("gcloud version | head -1 | grep -o -E '[0-9].*'")
+  existing_version_cmd.run_command
+
+  if existing_version_cmd.stderr.empty? && !existing_version_cmd.stdout.empty?
+    existing_version = existing_version_cmd.stdout.strip
+  end
+
+  if existing_version.to_s != version.to_s
+    bash 'clean up the mismatched gcloud version' do
+      code <<-EOF
+        gcloud_binary=$(which gcloud);
+        rm -rf $gcloud_binary;
+        rm -rf /$(whoami)/.config/gcloud;
+        rm -rf /usr/lib/google-cloud-sdk/;
+        EOF
+      only_if 'which gcloud'
+    end
+
+    download_url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-#{version}-#{platform}-#{arch}.tar.gz"
+    if platform?('ubuntu')
+      execute 'check exist and install python' do
+        command 'apt-get install -y python'
+        not_if 'which python'
+      end
+    end
+
+    if platform?('centos')
+      execute 'check exist and install python' do
+        command 'yum install -y python'
+        not_if 'which python'
+      end
+    end
+
+    bash 'install gcloud' do
+      user 'root'
+      cwd '/usr/lib'
+      code <<-EOH
+          curl #{download_url} | tar xvz
+          cd google-cloud-sdk
+          ./install.sh --usage-reporting=true --path-update=true --command-completion=true --bash-completion=true --rc-path=$(whoami)/.bashrc
+          EOH
+      not_if { ::File.exist?(binary_path) }
+    end
+
+    link binary_path do
+      to '/usr/lib/google-cloud-sdk/bin/gcloud'
+      only_if 'test -f /usr/lib/google-cloud-sdk/bin/gcloud'
     end
   end
-
-  if platform?('centos')
-    execute 'check exist and install python' do
-      command 'yum install -y python'
-      not_if 'which python'
-    end
-  end
-
-  bash 'install gcloud' do
-    user 'root'
-    cwd '/usr/lib'
-    code <<-EOH
-        curl #{download_url} | tar xvz
-        cd google-cloud-sdk
-        ./install.sh --usage-reporting=true --path-update=true --command-completion=true --bash-completion=true --rc-path=$(whoami)/.bashrc
-        EOH
-    not_if { ::File.exist?(binary_path) }
-  end
-
-  link binary_path do
-    to '/usr/lib/google-cloud-sdk/bin/gcloud'
-    only_if 'test -f /usr/lib/google-cloud-sdk/bin/gcloud'
-  end
-  # end
 end
 
 action :remove do
-  package 'google-cloud-sdk' do
-    action :remove
+  bash 'clean up gcloud' do
+    code <<-EOH
+      rm -rf #{binary_path}
+      rm -rf /$(whoami)/.config/gcloud
+      rm -rf /usr/lib/google-cloud-sdk/
+      EOH
+    only_if 'which gcloud'
   end
 end
