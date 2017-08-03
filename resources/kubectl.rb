@@ -54,10 +54,10 @@ action :install do
 
   if existing_version.to_s != version.to_s
     bash 'clean up the mismatched kubectl version' do
-      code <<-EOF
+      code <<-EOH
         kubectl_binary=$(which kubectl);
         rm -rf $kubectl_binary
-        EOF
+        EOH
       only_if 'which kubectl'
     end
 
@@ -67,6 +67,38 @@ action :install do
       source download_url
       mode '0755'
       not_if { ::File.exist?(binary_path) }
+    end
+
+    # check bash-completion is installed
+    if platform?('ubuntu')
+      bash 'check exist and install bash-completion' do
+        code <<-EOH
+            apt-get install bash-completion
+            . /etc/bash_completion
+            EOH
+        not_if { ::File.exist?('/etc/bash_completion') && ::File.exist?('/usr/share/bash-completion/bash_completion') }
+      end
+    end
+
+    if platform?('centos')
+      execute 'check exist and install bash-completion' do
+        command 'yum install -y bash-completion'
+        not_if { ::File.exist?('/etc/profile.d/bash_completion.sh') && ::File.exist?('/usr/share/bash-completion/bash_completion') }
+      end
+
+      bash 'add it to the bash profile' do
+        code <<-EOH
+            source /etc/profile.d/bash_completion.sh
+            EOH
+        only_if { node['platform_version'].to_f > 7.0 }
+      end
+    end
+
+    # install kubectl autocomplete (automatically loaded in future shells)
+    bash 'install kubectl autocomplete to automatically loaded in future shells' do
+      code <<-EOH
+          echo "source <(kubectl completion bash)" >> ~/.bashrc
+          EOH
     end
   end
 end
