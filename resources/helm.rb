@@ -44,24 +44,31 @@ action :install do
     version = latest_version_cmd.stdout.strip
   end
 
-  bash 'clean up the mismatched helm version' do
-    code <<-EOF
-          helm_binary=$(which helm);
-          existing_version=$(helm version --short --client | cut -d ':' -f2 | sed 's/[[:space:]]//g' | sed 's/+.*//');
-          if [ "$existing_version" != "#{version}" ]; then
-            rm -rf $helm_binary || true;
-          fi
-        EOF
-    only_if 'which helm'
+  # Command to check if we should be installing helm or not.
+  existing_version_cmd = Mixlib::ShellOut.new("helm version --short --client | cut -d ':' -f2 | sed 's/[[:space:]]//g' | sed 's/+.*//'")
+  existing_version_cmd.run_command
+
+  if existing_version_cmd.stderr.empty? && !existing_version_cmd.stdout.empty?
+    existing_version = existing_version_cmd.stdout.strip
   end
 
-  download_url = "https://storage.googleapis.com/kubernetes-helm/helm-#{version}-#{platform}-#{arch}.tar.gz"
+  if existing_version.to_s != version.to_s
+    bash 'clean up the mismatched helm version' do
+      code <<-EOF
+        helm_binary=$(which helm);
+        rm -rf $helm_binary
+        EOF
+      only_if 'which helm'
+    end
 
-  bash 'install helm' do
-    code <<-EOH
-      curl #{download_url} | tar -xvz
-      mv #{platform}-#{arch}/helm #{binary_path}
-      EOH
+    download_url = "https://storage.googleapis.com/kubernetes-helm/helm-#{version}-#{platform}-#{arch}.tar.gz"
+
+    bash 'install helm' do
+      code <<-EOH
+        curl #{download_url} | tar -xvz
+        mv #{platform}-#{arch}/helm #{binary_path}
+        EOH
+    end
   end
 end
 
