@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+
+  dev:
+    image: chef/chefdk
+    working_dir: /opt/app
+    # rm -rm is just hacking, find a better way
+    command: sh run-dev.sh
+    volumes:
+      - .:/opt/app

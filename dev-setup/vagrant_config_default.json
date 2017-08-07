@@ -1,0 +1,23 @@
+{
+  "provisioners": [{
+    "_id": "0",
+    "_ua_cookbooks_path": [
+      "workspace/kubernetes-stack-cookbook/dev-setup/chef/berks-cookbooks",
+      "workspace/kubernetes-stack-cookbook/dev-setup/chef/main-cookbooks"
+    ],
+    "_ua_run_list": [
+      "kubernetes-stack-cookbook"
+    ],
+    "json": {
+      "teracy-dev": {
+        "env_vars": [{
+          "_id": "kubernetes-stack-cookbook-0",
+          "key": "KITCHEN_LOCAL_YAML",
+          "value": ".kitchen.dokken.yml",
+          "action": "add" // one of add, remove. Default: add.
+          // See more: https://github.com/customink-webops/magic_shell/blob/master/resources/environment.rb
+        }]
+      }
+    }
+  }]
+}

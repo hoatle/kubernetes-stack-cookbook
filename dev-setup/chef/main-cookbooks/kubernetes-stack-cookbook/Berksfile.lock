@@ -1,0 +1,11 @@
+DEPENDENCIES
+  kubernetes-stack-cookbook
+    path: .
+    metadata: true
+
+GRAPH
+  chef-dk (3.1.0)
+    dmg (~> 2.2)
+  dmg (2.4.0)
+  kubernetes-stack-cookbook (0.1.0)
+    chef-dk (>= 0.0.0)
