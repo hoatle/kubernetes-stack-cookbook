@@ -69,6 +69,47 @@ action :install do
         mv #{platform}-#{arch}/helm #{binary_path}
         EOH
     end
+
+    # Check bash-completion is installed
+    if platform?('ubuntu')
+      bash 'check exist and install bash-completion' do
+        code <<-EOH
+          apt-get install bash-completion
+          . /etc/bash_completion
+          EOH
+        not_if { ::File.exist?('/etc/bash_completion') && ::File.exist?('/usr/share/bash-completion/bash_completion') }
+      end
+    end
+
+    if platform?('centos')
+      execute 'check exist and install bash-completion' do
+        command 'yum install -y bash-completion'
+        not_if { ::File.exist?('/etc/profile.d/bash_completion.sh') && ::File.exist?('/usr/share/bash-completion/bash_completion') }
+      end
+
+      bash 'add it to the bash profile' do
+        code <<-EOH
+          source /etc/profile.d/bash_completion.sh
+          EOH
+        only_if { node['platform_version'].to_f > 7.0 }
+      end
+    end
+
+    # Delete helm autocomplete if existing
+    execute 'delete helm autocomplete' do
+      action :run
+      command 'rm -rf /etc/bash_completion.d/helm'
+      user 'root'
+      only_if 'test -f /etc/bash_completion.d/helm'
+    end
+
+    # Install helm autocomplete
+    execute 'install helm autocomplete' do
+      action :run
+      command 'helm completion bash > /etc/bash_completion.d/helm'
+      creates '/etc/bash_completion.d/helm'
+      user 'root'
+    end
   end
 end
 

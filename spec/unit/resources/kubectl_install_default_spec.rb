@@ -32,6 +32,7 @@ describe 'kubernetes-stack-test::kubectl_install_default' do
 
     before do
       stub_command('which kubectl').and_return('/usr/local/bin/kubectl')
+      stub_command('test -f /etc/bash_completion.d/kubectl').and_return(true)
     end
 
     it 'converges successfully' do
@@ -48,6 +49,7 @@ describe 'kubernetes-stack-test::kubectl_install_default' do
 
     before do
       stub_command('which kubectl').and_return('/usr/local/bin/kubectl')
+      stub_command('test -f /etc/bash_completion.d/kubectl').and_return(true)
     end
 
     it 'converges successfully' do

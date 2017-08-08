@@ -69,7 +69,7 @@ action :install do
       not_if { ::File.exist?(binary_path) }
     end
 
-    # check bash-completion is installed
+    # Check bash-completion is installed
     if platform?('ubuntu')
       bash 'check exist and install bash-completion' do
         code <<-EOH
@@ -94,11 +94,20 @@ action :install do
       end
     end
 
-    # install kubectl autocomplete (automatically loaded in future shells)
-    bash 'install kubectl autocomplete to automatically loaded in future shells' do
-      code <<-EOH
-          echo "source <(kubectl completion bash)" >> ~/.bashrc
-          EOH
+    # Delete kubect autocomplete if existing
+    execute 'delete kubectl autocomplete' do
+      action :run
+      command 'rm -rf /etc/bash_completion.d/kubectl'
+      user 'root'
+      only_if 'test -f /etc/bash_completion.d/kubectl'
+    end
+
+    # Install kubectl autocomplete
+    execute 'install kubectl autocomplete' do
+      action :run
+      command 'kubectl completion bash > /etc/bash_completion.d/kubectl'
+      creates '/etc/bash_completion.d/kubect'
+      user 'root'
     end
   end
 end

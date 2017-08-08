@@ -36,7 +36,7 @@ action :install do
     existing_version = existing_version_cmd.stdout.strip
   end
 
-  if existing_version.to_s != version.to_s
+  if existing_version != version
     bash 'clean up the mismatched gcloud version' do
       code <<-EOF
         gcloud_binary=$(which gcloud);
@@ -63,13 +63,19 @@ action :install do
     end
 
     bash 'install gcloud' do
-      user 'root'
       cwd '/usr/lib'
       code <<-EOH
           curl #{download_url} | tar xvz
           cd google-cloud-sdk
-          ./install.sh --usage-reporting=true --path-update=true --command-completion=true --bash-completion=true --rc-path=$(whoami)/.bashrc
+          ./install.sh --usage-reporting=false --path-update=true --bash-completion=true --rc-path=~/.bashrc || true
+          /usr/lib/google-cloud-sdk/bin/gcloud config set --installation component_manager/disable_update_check true || true
+          sed -i -- 's/\"disable_updater\": false/\"disable_updater\": true/g' /usr/lib/google-cloud-sdk/lib/googlecloudsdk/core/config.json || true
+          echo "source '/usr/lib/google-cloud-sdk/completion.bash.inc'" >> ~/.bashrc || true
+          echo "source '/usr/lib/google-cloud-sdk/completion.bash.inc'" >> /etc/bash.bashrc || true
+          source ~/.bashrc || true
           EOH
+      user 'root'
+      group 'root'
       not_if { ::File.exist?(binary_path) }
     end
 

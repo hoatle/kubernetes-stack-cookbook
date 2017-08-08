@@ -32,6 +32,7 @@ describe 'kubernetes-stack-test::helm_install_default' do
 
     before do
       stub_command('which helm').and_return('/usr/local/bin/helm')
+      stub_command('test -f /etc/bash_completion.d/helm').and_return(true)
     end
 
     it 'converges successfully' do
@@ -48,6 +49,7 @@ describe 'kubernetes-stack-test::helm_install_default' do
 
     before do
       stub_command('which helm').and_return('/usr/local/bin/helm')
+      stub_command('test -f /etc/bash_completion.d/helm').and_return(true)
     end
 
     it 'converges successfully' do
