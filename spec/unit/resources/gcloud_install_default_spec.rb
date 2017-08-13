@@ -34,6 +34,13 @@ describe 'kubernetes-stack-test::gcloud_install_default' do
       stub_command('which gcloud').and_return('/usr/local/bin/gcloud')
       stub_command('which python').and_return('/usr/bin/python')
       stub_command('test -f /usr/lib/google-cloud-sdk/bin/gcloud').and_return(true)
+      stub_command('test -f /usr/lib/google-cloud-sdk/lib/googlecloudsdk/core/config.json').and_return(true)
+      stub_command('test -f /etc/bash_completion.d/gcloud').and_return(true)
+      stub_command('test -f /usr/lib/google-cloud-sdk/completion.bash.inc').and_return(true)
+      stub_command('test -f /etc/apt/sources.list.d/google-cloud-sdk.list').and_return(true)
+      stub_command('test -d /root/.config/gcloud').and_return(true)
+      stub_command('test -d /usr/lib/google-cloud-sdk').and_return(true)
+      stub_command('test -d /home/vagrant/.config/gcloud').and_return(true)
     end
 
     it 'converges successfully' do
@@ -52,6 +59,13 @@ describe 'kubernetes-stack-test::gcloud_install_default' do
       stub_command('which gcloud').and_return('/usr/local/bin/gcloud')
       stub_command('which python').and_return('/usr/bin/python')
       stub_command('test -f /usr/lib/google-cloud-sdk/bin/gcloud').and_return('true')
+      stub_command('test -f /usr/lib/google-cloud-sdk/lib/googlecloudsdk/core/config.json').and_return(true)
+      stub_command('test -f /etc/bash_completion.d/gcloud').and_return(true)
+      stub_command('test -f /usr/lib/google-cloud-sdk/completion.bash.inc').and_return(true)
+      stub_command('test -f /etc/apt/sources.list.d/google-cloud-sdk.list').and_return(true)
+      stub_command('test -d /root/.config/gcloud').and_return(true)
+      stub_command('test -d /usr/lib/google-cloud-sdk').and_return(true)
+      stub_command('test -d /home/vagrant/.config/gcloud').and_return(true)
     end
 
     it 'converges successfully' do
