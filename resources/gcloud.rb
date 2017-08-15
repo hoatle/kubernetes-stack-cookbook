@@ -56,7 +56,7 @@ action :install do
       end
 
       # Link to binary_path
-      link_to_binary_path(binary_path)
+      link_to_path_env(binary_path)
       # Disable update notification when run command 'gcloud version'
       disable_update_check
     # Gcloud version will be installed via file downloaded
@@ -79,7 +79,7 @@ action :install do
       end
 
       # Link to binary_path
-      link_to_binary_path(binary_path)
+      link_to_path_env(binary_path)
       # Disable update notification when run command 'gcloud version'
       disable_update_check
       # Install autocomplete
@@ -204,11 +204,25 @@ action_class do
     version_avaiable
   end
 
-  def link_to_binary_path(binary_path)
+  def link_to_path_env(binary_path)
     link binary_path do
       to '/usr/lib/google-cloud-sdk/bin/gcloud'
       mode '0755'
       only_if 'test -f /usr/lib/google-cloud-sdk/bin/gcloud'
+    end
+
+    # Add gsutil to ENV_PATH
+    link '/usr/local/bin/gsutil' do
+      to '/usr/lib/google-cloud-sdk/bin/gsutil'
+      mode '0755'
+      only_if 'test -f /usr/lib/google-cloud-sdk/bin/gsutil'
+    end
+
+    # Add bq command to ENV_PATH
+    link '/usr/local/bin/bq' do
+      to '/usr/lib/google-cloud-sdk/bin/bq'
+      mode '0755'
+      only_if 'test -f /usr/lib/google-cloud-sdk/bin/bq'
     end
   end
 
