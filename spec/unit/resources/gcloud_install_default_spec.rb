@@ -41,6 +41,8 @@ describe 'kubernetes-stack-test::gcloud_install_default' do
       stub_command('test -d /root/.config/gcloud').and_return(true)
       stub_command('test -d /usr/lib/google-cloud-sdk').and_return(true)
       stub_command('test -d /home/vagrant/.config/gcloud').and_return(true)
+      stub_command('test -f /usr/lib/google-cloud-sdk/bin/gsutil').and_return(true)
+      stub_command('test -f /usr/lib/google-cloud-sdk/bin/bq').and_return(true)
     end
 
     it 'converges successfully' do
@@ -66,6 +68,8 @@ describe 'kubernetes-stack-test::gcloud_install_default' do
       stub_command('test -d /root/.config/gcloud').and_return(true)
       stub_command('test -d /usr/lib/google-cloud-sdk').and_return(true)
       stub_command('test -d /home/vagrant/.config/gcloud').and_return(true)
+      stub_command('test -f /usr/lib/google-cloud-sdk/bin/gsutil').and_return(true)
+      stub_command('test -f /usr/lib/google-cloud-sdk/bin/bq').and_return(true)
     end
 
     it 'converges successfully' do
