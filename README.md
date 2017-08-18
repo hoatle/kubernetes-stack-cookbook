@@ -2,13 +2,47 @@
 
 Kubernetes stack cookbook to work with Kubernetes
 
+## Requirements
+
+- Chef 12.5.x or higher. Chef 11 is NOT SUPPORTED.
+
+## Platform support
+
+|              | gcloud | kubectl | helm |
+|--------------|:------:|:--------|:----:|
+| centos-7     | ✔      | ✔       | ✔    |
+| ubuntu-16.04 | ✔      | ✔       | ✔    |
+
+- [kubectl](#kubectl): support all version with centos-7 and ubuntu-16.04.
+- [helm](#helm): support all version with centos-7 and ubuntu-16.04.
+- [gcloud](#gcloud): support all version with centos-7 and ubuntu-16.04. Should use version avaiable in https://packages.cloud.google.com/apt/ (with ubuntu platform) for faster autocomplete.
 
 ## How to use
 
-//TODO
+- Add `depends 'kubernetes-stack'` to your cookbook's metadata.rb.
+- Use the resources shipped in cookbook in a recipe :
 
+```ruby
+kubectl 'install kubectl' do
+  action [:install, :remove]
+  version ''
+  binary_path '' #application path (if empty, default:/usr/local/bin/kubectl)
+end
 
-## Getting started
+gcloud 'install gcloud' do
+  action [:install, :remove]
+  version ''
+  binary_path '' #application path (if empty, default:/usr/local/bin/gcloud)
+end
+
+helm 'install helm' do
+  action [:install, :remove]
+  version ''
+  binary_path '' #application path (if empty, default:/usr/local/bin/helm)
+end
+```
+
+## How to develop
 
 - Follow https://github.com/teracyhq/dev-setup/tree/develop
 
@@ -22,9 +56,6 @@ Kubernetes stack cookbook to work with Kubernetes
   ```
 
 - `$ vagrant reload --provision` to update the dev-setup from this project into the teracy-dev's VM.
-  After that, you should be ready to work on the project.
-
-## How to develop
 
 - For codestyle checking:
 
@@ -48,6 +79,12 @@ Kubernetes stack cookbook to work with Kubernetes
   $ kitchen list
   $ kitchen verify <instance>
   ```
+
+## Resources overview
+
+- [gcloud](#gcloud): install or remove `google-cloud-sdk`.
+- [kubectl](#kubectl): install or remove `kubectl`.
+- [helm](#helm): install or remove `helm`.
 
 ## See more:
 
