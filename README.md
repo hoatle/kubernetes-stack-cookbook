@@ -13,9 +13,9 @@ Kubernetes stack cookbook to work with Kubernetes
 | centos-7     | ✔      | ✔       | ✔    |
 | ubuntu-16.04 | ✔      | ✔       | ✔    |
 
-- [kubectl](#kubectl): support all version with centos-7 and ubuntu-16.04.
-- [helm](#helm): support all version with centos-7 and ubuntu-16.04.
-- [gcloud](#gcloud): support all version with centos-7 and ubuntu-16.04. Should use version avaiable in https://packages.cloud.google.com/apt/ (with ubuntu platform) for faster autocomplete.
+- `kubectl`: support all centos-7 and ubuntu-16.04 versions.
+- `helm`: support all centos-7 and ubuntu-16.04 versions.
+- `gcloud`: support all centos-7 and ubuntu-16.04 versions. Should use version avaiable in https://packages.cloud.google.com/apt/ (with ubuntu platform) for faster autocomplete.
 
 ## How to use
 
@@ -25,20 +25,20 @@ Kubernetes stack cookbook to work with Kubernetes
 ```ruby
 kubectl 'install kubectl' do
   action [:install, :remove]
-  version ''
-  binary_path '' #application path (if empty, default:/usr/local/bin/kubectl)
+  version '' #application version (if empty, default: latest)
+  binary_path '' #application path (if empty, default: /usr/local/bin/kubectl)
 end
 
 gcloud 'install gcloud' do
   action [:install, :remove]
-  version ''
-  binary_path '' #application path (if empty, default:/usr/local/bin/gcloud)
+  version '' #application version (if empty, default: latest)
+  binary_path '' #application path (if empty, default: /usr/local/bin/gcloud)
 end
 
 helm 'install helm' do
   action [:install, :remove]
-  version ''
-  binary_path '' #application path (if empty, default:/usr/local/bin/helm)
+  version '' #application version (if empty, default: latest)
+  binary_path '' #application path (if empty, default: /usr/local/bin/helm)
 end
 ```
 
@@ -46,7 +46,7 @@ end
 
 - Follow https://github.com/teracyhq/dev-setup/tree/develop
 
-- Fork this project into the your personal account and then clone it into the workspace directory:
+- Fork this project into your personal account and then clone it into the workspace directory:
 
   ```bash
   $ cd ~/teracy-dev/workspace
@@ -85,6 +85,109 @@ end
 - [gcloud](#gcloud): install or remove `google-cloud-sdk`.
 - [kubectl](#kubectl): install or remove `kubectl`.
 - [helm](#helm): install or remove `helm`.
+
+## Resources detail
+## gcloud
+
+The `gcloud` resource auto-install or auto-remove `gcloud` with the provider resolution system.
+
+### Example
+
+Install `gcloud` with default version
+```ruby
+gcloud 'install default gcloud' do
+  action :install
+  version ''
+  binary_path ''
+end
+```
+Install `gcloud` with specific version
+```ruby
+gcloud 'install specific gcloud version' do
+  action :install
+  version '164.0.0'
+  binary_path ''
+end
+```
+Remove `gcloud`
+```ruby
+gcloud 'remove gcloud' do
+  action :remove
+end
+```
+
+### Properties
+- `action` - `:install` to install `gcloud`, `:remove` to uninstall `gcloud`.
+- `version` - The desired version of `gcloud`.
+- `binary_path` - Application path (if empty, default:/usr/local/bin/gcloud)
+
+## kubectl
+
+The `kubectl` resource auto-install or auto-remove `kubectl` with the provider resolution system.
+
+### Example
+
+Install `kubectl` with default version
+```ruby
+kubectl 'install default kubectl' do
+  action :install
+  version ''
+  binary_path ''
+end
+```
+Install `kubectl` with specific version
+```ruby
+kubectl 'install specific kubectl version' do
+  action :install
+  version 'v1.7.0'
+  binary_path ''
+end
+```
+Remove `kubectl`
+```ruby
+kubectl 'remove kubectl' do
+  action :remove
+end
+```
+
+### Properties
+- `action` - `:install` to install `kubectl`, `:remove` to uninstall `kubectl`.
+- `version` - The desired version of `kubectl`.
+- `binary_path` - Application path (if empty, default:/usr/local/bin/kubectl)
+
+## helm
+
+The `helm` resource auto-install or auto-remove `helm` with the provider resolution system.
+
+### Example
+
+Install `helm` with default version
+```ruby
+helm 'install default helm' do
+  action :install
+  version ''
+  binary_path ''
+end
+```
+Install `helm` with specific version
+```ruby
+helm 'install specific helm version' do
+  action :install
+  version 'v2.4.2'
+  binary_path ''
+end
+```
+Remove `helm`
+```ruby
+helm 'remove helm' do
+  action :remove
+end
+```
+
+### Properties
+- `action` - `:install` to install `helm`, `:remove` to uninstall `helm`.
+- `version` - The desired version of `helm`.
+- `binary_path` - Application path (if empty, default:/usr/local/bin/helm)
 
 ## See more:
 
