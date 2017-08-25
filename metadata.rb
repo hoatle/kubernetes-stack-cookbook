@@ -4,7 +4,7 @@ maintainer_email 'hq@teracy.com'
 license 'MIT'
 description 'Installs/Configures kubernetes'
 long_description 'Installs/Configures kubernetes stack'
-version '0.1.1-SNAPSHOT'
+version '0.1.1'
 
 
 # The `issues_url` points to the location where issues for this cookbook are
