@@ -1,6 +1,6 @@
 # kubernetes-stack-cookbook [![Build Status](https://travis-ci.org/teracyhq-incubator/kubernetes-stack-cookbook.svg?branch=develop)](https://travis-ci.org/teracyhq-incubator/kubernetes-stack-cookbook)
 
-Kubernetes stack cookbook to work with Kubernetes
+Kubernetes stack cookbook to work with Kubernetes: https://supermarket.chef.io/cookbooks/kubernetes-stack
 
 ## Requirements
 
@@ -93,7 +93,8 @@ The `gcloud` resource auto-install or auto-remove `gcloud` with the provider res
 
 ### Example
 
-Install `gcloud` with default version
+Install `gcloud` with default version:
+
 ```ruby
 gcloud 'install default gcloud' do
   action :install
@@ -101,7 +102,9 @@ gcloud 'install default gcloud' do
   binary_path ''
 end
 ```
-Install `gcloud` with specific version
+
+Install `gcloud` with specific version:
+
 ```ruby
 gcloud 'install specific gcloud version' do
   action :install
@@ -109,7 +112,9 @@ gcloud 'install specific gcloud version' do
   binary_path ''
 end
 ```
-Remove `gcloud`
+
+Remove `gcloud`:
+
 ```ruby
 gcloud 'remove gcloud' do
   action :remove
@@ -117,6 +122,7 @@ end
 ```
 
 ### Properties
+
 - `action` - `:install` to install `gcloud`, `:remove` to uninstall `gcloud`.
 - `version` - The desired version of `gcloud`.
 - `binary_path` - Application path (if empty, default:/usr/local/bin/gcloud)
@@ -127,7 +133,8 @@ The `kubectl` resource auto-install or auto-remove `kubectl` with the provider r
 
 ### Example
 
-Install `kubectl` with default version
+Install `kubectl` with default version:
+
 ```ruby
 kubectl 'install default kubectl' do
   action :install
@@ -135,7 +142,9 @@ kubectl 'install default kubectl' do
   binary_path ''
 end
 ```
-Install `kubectl` with specific version
+
+Install `kubectl` with specific version:
+
 ```ruby
 kubectl 'install specific kubectl version' do
   action :install
@@ -143,7 +152,9 @@ kubectl 'install specific kubectl version' do
   binary_path ''
 end
 ```
-Remove `kubectl`
+
+Remove `kubectl`:
+
 ```ruby
 kubectl 'remove kubectl' do
   action :remove
@@ -161,7 +172,8 @@ The `helm` resource auto-install or auto-remove `helm` with the provider resolut
 
 ### Example
 
-Install `helm` with default version
+Install `helm` with default version:
+
 ```ruby
 helm 'install default helm' do
   action :install
@@ -169,7 +181,9 @@ helm 'install default helm' do
   binary_path ''
 end
 ```
-Install `helm` with specific version
+
+Install `helm` with specific version:
+
 ```ruby
 helm 'install specific helm version' do
   action :install
@@ -177,7 +191,9 @@ helm 'install specific helm version' do
   binary_path ''
 end
 ```
-Remove `helm`
+
+Remove `helm`:
+
 ```ruby
 helm 'remove helm' do
   action :remove

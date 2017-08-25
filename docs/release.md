@@ -5,6 +5,11 @@ This is the release note with steps for releasing this project.
 Follow: http://dev.teracy.org/docs/release_process.html
 
 
+## metadata.rb
+
+- Update the version information
+
+
 ## CHANGELOG.md
 
 - Update the changelog file
